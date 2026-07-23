@@ -1,0 +1,98 @@
+<node>
+  <interface name='org.freedesktop.login1.Manager'>
+    <method name='GetSession'>
+      <arg type='s' name='session_id' direction='in'/>
+      <arg type='o' name='object_path' direction='out'/>
+    </method>
+    <method name='GetSessionByPID'>
+      <arg type='u' name='pid' direction='in'/>
+      <arg type='o' name='object_path' direction='out'/>
+    </method>
+    <method name='GetSeat'>
+      <arg type='s' name='seat_id' direction='in'/>
+      <arg type='o' name='object_path' direction='out'/>
+    </method>
+    <method name='GetUser'>
+      <arg type='u' name='uid' direction='in'/>
+      <arg type='o' name='object_path' direction='out'/>
+    </method>
+    <method name='ListSessions'>
+      <arg type='a(susso)' name='sessions' direction='out'/>
+    </method>
+    <method name='ListSeats'>
+      <arg type='a(so)' name='seats' direction='out'/>
+    </method>
+    <method name='ListUsers'>
+      <arg type='a(uso)' name='users' direction='out'/>
+    </method>
+    <method name='CanPowerOff'><arg type='s' name='result' direction='out'/></method>
+    <method name='CanReboot'><arg type='s' name='result' direction='out'/></method>
+    <method name='CanSuspend'><arg type='s' name='result' direction='out'/></method>
+    <method name='CanHibernate'><arg type='s' name='result' direction='out'/></method>
+    <method name='CanHybridSleep'><arg type='s' name='result' direction='out'/></method>
+    <method name='PowerOff'><arg type='b' name='interactive' direction='in'/></method>
+    <method name='Reboot'><arg type='b' name='interactive' direction='in'/></method>
+    <method name='Suspend'><arg type='b' name='interactive' direction='in'/></method>
+    <method name='Hibernate'><arg type='b' name='interactive' direction='in'/></method>
+    <method name='Inhibit'>
+      <arg type='s' name='what' direction='in'/>
+      <arg type='s' name='who' direction='in'/>
+      <arg type='s' name='why' direction='in'/>
+      <arg type='s' name='mode' direction='in'/>
+      <arg type='h' name='fd' direction='out'/>
+    </method>
+    <signal name='SessionNew'><arg type='s'/><arg type='o'/></signal>
+    <signal name='SessionRemoved'><arg type='s'/><arg type='o'/></signal>
+    <signal name='PrepareForSleep'><arg type='b'/></signal>
+    <signal name='PrepareForShutdown'><arg type='b'/></signal>
+  </interface>
+  <interface name='org.freedesktop.login1.Seat'>
+    <method name='ActivateSession'><arg type='s' name='session_id' direction='in'/></method>
+    <method name='SwitchTo'><arg type='u' name='vtnr' direction='in'/></method>
+    <property name='Id' type='s' access='read'/>
+    <property name='ActiveSession' type='(so)' access='read'/>
+    <property name='CanGraphical' type='b' access='read'/>
+    <property name='CanTTY' type='b' access='read'/>
+    <property name='Sessions' type='a(so)' access='read'/>
+  </interface>
+  <interface name='org.freedesktop.login1.Session'>
+    <method name='Activate'/>
+    <method name='Lock'/>
+    <method name='Unlock'/>
+    <method name='SetIdleHint'><arg type='b' name='idle' direction='in'/></method>
+    <method name='SetLockedHint'><arg type='b' name='locked' direction='in'/></method>
+    <method name='TakeControl'><arg type='b' name='force' direction='in'/></method>
+    <method name='ReleaseControl'/>
+    <method name='TakeDevice'>
+      <arg type='u' name='major' direction='in'/>
+      <arg type='u' name='minor' direction='in'/>
+      <arg type='h' name='fd' direction='out'/>
+      <arg type='b' name='inactive' direction='out'/>
+    </method>
+    <method name='ReleaseDevice'>
+      <arg type='u' name='major' direction='in'/>
+      <arg type='u' name='minor' direction='in'/>
+    </method>
+    <method name='PauseDeviceComplete'>
+      <arg type='u' name='major' direction='in'/>
+      <arg type='u' name='minor' direction='in'/>
+    </method>
+    <method name='SetType'><arg type='s' name='type' direction='in'/></method>
+    <method name='Terminate'/>
+    <signal name='Lock'/>
+    <signal name='Unlock'/>
+    <signal name='PauseDevice'><arg type='u'/><arg type='u'/><arg type='s'/></signal>
+    <signal name='ResumeDevice'><arg type='u'/><arg type='u'/><arg type='h'/></signal>
+    <property name='Id' type='s' access='read'/>
+    <property name='Name' type='s' access='read'/>
+    <property name='Seat' type='(so)' access='read'/>
+    <property name='VTNr' type='u' access='read'/>
+    <property name='Active' type='b' access='read'/>
+    <property name='State' type='s' access='read'/>
+    <property name='Remote' type='b' access='read'/>
+    <property name='Class' type='s' access='read'/>
+    <property name='Type' type='s' access='read'/>
+    <property name='IdleHint' type='b' access='read'/>
+    <property name='LockedHint' type='b' access='read'/>
+  </interface>
+</node>
